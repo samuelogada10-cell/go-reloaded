@@ -6,29 +6,48 @@ func fixA(s string) string {
 	w := strings.Fields(s)
 
 	for i := 0; i < len(w)-1; i++ {
-		if w[i] == "a" || w[i] == "A" {
-			next := strings.ToLower(w[i+1])
+		word := w[i]
+		next := strings.ToLower(w[i+1])
 
-			if strings.ContainsAny(string(next[0]), "aeiou") {
-				w[i] += "n"
-				continue
+		useAn := false
+
+		// vowel words
+		if strings.ContainsAny(string(next[0]), "aeiou") {
+			useAn = true
+		}
+
+		// words that sound like "you"
+		if strings.HasPrefix(next, "uni") ||
+			strings.HasPrefix(next, "use") ||
+			strings.HasPrefix(next, "euro") {
+			useAn = false
+		}
+
+		// silent h
+		if next == "hour" ||
+			next == "honest" ||
+			next == "honor" ||
+			next == "honour" ||
+			next == "heir" {
+			useAn = true
+		}
+
+		if word == "a" || word == "an" {
+			if useAn {
+				w[i] = "an"
+			} else {
+				w[i] = "a"
 			}
+		}
 
-			if strings.HasPrefix(next, "honest") ||
-				strings.HasPrefix(next, "hour") ||
-				strings.HasPrefix(next, "heir") ||
-				strings.HasPrefix(next, "honor") {
-				w[i] += "n"
+		if word == "A" || word == "An" {
+			if useAn {
+				w[i] = "An"
+			} else {
+				w[i] = "A"
 			}
 		}
 	}
 
 	return strings.Join(w, " ")
-}
-
-func fixP(s string) string {
-	for _, p := range []string{".", ",", "!", "?", ":", ";"} {
-		s = strings.ReplaceAll(s, " "+p, p)
-	}
-	return s
 }
