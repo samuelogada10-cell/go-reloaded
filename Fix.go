@@ -11,19 +11,16 @@ func fixA(s string) string {
 
 		useAn := false
 
-		// vowel words
-		if strings.ContainsAny(string(next[0]), "aeiou") {
+		if len(next) > 0 && strings.ContainsAny(string(next[0]), "aeiou") {
 			useAn = true
 		}
 
-		// words that sound like "you"
 		if strings.HasPrefix(next, "uni") ||
 			strings.HasPrefix(next, "use") ||
 			strings.HasPrefix(next, "euro") {
 			useAn = false
 		}
 
-		// silent h
 		if next == "hour" ||
 			next == "honest" ||
 			next == "honor" ||
@@ -50,4 +47,11 @@ func fixA(s string) string {
 	}
 
 	return strings.Join(w, " ")
+}
+
+func fixP(s string) string {
+	for _, p := range []string{".", ",", "!", "?", ":", ";"} {
+		s = strings.ReplaceAll(s, " "+p, p)
+	}
+	return s
 }
