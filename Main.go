@@ -10,5 +10,5 @@ func main() {
 
 	d, _ := os.ReadFile(a[1])
 	s := fixP(fixA(conv(string(d))))
-	os.WriteFile(a[2], []byte(s), 0644)
+	os.WriteFile(a[2], []byte(s+"\n"), 0644)
 }
